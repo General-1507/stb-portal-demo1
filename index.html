@@ -1,0 +1,71 @@
+<!doctype html>
+<html>
+<head>
+  <meta charset="utf-8"/>
+  <title>STB Release Portal - Demo</title>
+  <style>
+    body{font-family:Arial,Helvetica,sans-serif; margin:20px;}
+    .header{display:flex;justify-content:space-between;align-items:center}
+    .cards{display:flex;gap:12px;flex-wrap:wrap;margin-top:12px}
+    .card{border:1px solid #ddd;padding:12px;border-radius:8px;width:320px;box-shadow:0 1px 3px rgba(0,0,0,0.06)}
+    .timeline{margin-top:24px}
+    .item{padding:10px;border-left:4px solid #888;margin-bottom:12px;background:#fafafa;border-radius:6px}
+    .badge{display:inline-block;padding:4px 8px;border-radius:12px;background:#efefef;font-size:12px;margin-right:6px}
+  </style>
+</head>
+<body>
+  <div class="header">
+    <h1>STB Release Portal — Demo</h1>
+    <div>
+      <strong>Owner:</strong> 你名字<br/>
+      <small>演示数据，仅供参考</small>
+    </div>
+  </div>
+
+  <div>
+    <h2>快速概览</h2>
+    <div class="cards" id="overview"></div>
+  </div>
+
+  <div class="timeline">
+    <h2>时间轴 & 最近事项</h2>
+    <div id="timeline"></div>
+  </div>
+
+<script>
+fetch('data.json').then(r=>r.json()).then(data=>{
+  const overview = document.getElementById('overview');
+  const timeline = document.getElementById('timeline');
+
+  // Overview cards by module
+  const moduleMap = {};
+  data.forEach(it=>{
+    (it.modules||[]).forEach(m=>{
+      moduleMap[m] = moduleMap[m] || {module:m, count:0, critical:0};
+      moduleMap[m].count++;
+      if((it.type==='patch' && it.status==='Open') || it.type==='announcement') {
+        moduleMap[m].critical++;
+      }
+    });
+  });
+  Object.values(moduleMap).forEach(m=>{
+    const div = document.createElement('div'); div.className='card';
+    div.innerHTML = `<h3>${m.module}</h3><p>Items: ${m.count} &nbsp; Critical: ${m.critical}</p>
+      <p><small>Owner: (示例)</small></p>`;
+    overview.appendChild(div);
+  });
+
+  // Timeline
+  data.sort((a,b)=> new Date(b.date)-new Date(a.date));
+  data.forEach(it=>{
+    const div = document.createElement('div'); div.className='item';
+    div.innerHTML = `<div><span class="badge">${it.type.toUpperCase()}</span><strong>${it.title}</strong></div>
+      <div style="font-size:12px;color:#666">${it.date} • ${it.modules?it.modules.join(', '):''} • ID: ${it.id}</div>
+      <div style="margin-top:6px">${it.summary}</div>`;
+    timeline.appendChild(div);
+  });
+});
+</script>
+</body>
+</html>
+

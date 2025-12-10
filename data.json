@@ -1,0 +1,28 @@
+[
+  {
+    "type": "announcement",
+    "date": "2025-12-01",
+    "title": "Mandatory Security Patch for WiFi W2",
+    "summary": "Fix CVE-2025-xxxx affecting W2/W2L. Immediate rollout required for all X5 platforms.",
+    "modules": ["WiFi"],
+    "id": "ANN-20251201-001"
+  },
+  {
+    "type": "patch",
+    "date": "2025-12-02",
+    "title": "Patch: WiFi driver buffer overflow",
+    "summary": "Submitted by India QA. Severity: Critical. Jira: https://jira.example/PATCH-123",
+    "modules": ["WiFi"],
+    "id": "PATCH-20251202-001",
+    "status": "Open"
+  },
+  {
+    "type": "roadmap",
+    "date": "2026-03-01",
+    "title": "SDK 2026 Q1 - Add MS12 audio certification plan",
+    "summary": "Audio team to complete MS12 integration and certification test plans.",
+    "modules": ["Audio"],
+    "id": "RM-20260301-001"
+  }
+]
+
